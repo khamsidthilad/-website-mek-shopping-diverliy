@@ -1,0 +1,18 @@
+2026-04-22 19:11:12 [ERROR]: Error creating mock delivery records Error
+    at Query.run (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/dialects/mysql/query.js:46:25)
+    at /Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async MySQLQueryInterface.bulkInsert (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/dialects/abstract/query-interface.js:881:21)
+    at async recursiveBulkCreate (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/model.js:2851:25)
+    at async Function.bulkCreate (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/model.js:2977:12)
+    at async createMockDiverily (/Users/chonenykhanthavivong/website-mek-shopping/src/utils/syncDatabase.ts:239:5)
+    at async syncDatabase (/Users/chonenykhanthavivong/website-mek-shopping/src/utils/syncDatabase.ts:44:5)
+2026-04-22 19:12:58 [ERROR]: Error creating mock delivery records Error
+    at Query.run (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/dialects/mysql/query.js:46:25)
+    at /Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async MySQLQueryInterface.bulkInsert (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/dialects/abstract/query-interface.js:881:21)
+    at async recursiveBulkCreate (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/model.js:2851:25)
+    at async Function.bulkCreate (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/model.js:2977:12)
+    at async createMockDiverily (/Users/chonenykhanthavivong/website-mek-shopping/src/utils/syncDatabase.ts:239:5)
+    at async syncDatabase (/Users/chonenykhanthavivong/website-mek-shopping/src/utils/syncDatabase.ts:44:5)

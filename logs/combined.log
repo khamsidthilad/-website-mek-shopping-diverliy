@@ -1,0 +1,89 @@
+2026-04-21 11:21:53 [INFO]: Mock customers created 
+2026-04-21 11:21:53 [INFO]: Mock products created 
+2026-04-21 16:29:28 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 16:29:28 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 16:45:57 [INFO]: Default categories created 
+2026-04-21 16:45:57 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 16:45:57 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 16:46:58 [INFO]: Categories already exist, skipping creation 
+2026-04-21 16:46:58 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 16:46:58 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 17:52:49 [INFO]: Categories already exist, skipping creation 
+2026-04-21 17:52:49 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 17:52:49 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 17:56:12 [INFO]: Categories already exist, skipping creation 
+2026-04-21 17:56:12 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 17:56:12 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 17:57:42 [INFO]: Categories already exist, skipping creation 
+2026-04-21 17:57:43 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 17:57:43 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 17:57:43 [INFO]: Mock suppliers created 
+2026-04-21 18:03:43 [INFO]: Categories already exist, skipping creation 
+2026-04-21 18:03:43 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 18:03:43 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 18:03:43 [INFO]: Suppliers already exist, skipping mock data. 
+2026-04-21 18:03:59 [INFO]: Categories already exist, skipping creation 
+2026-04-21 18:03:59 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 18:03:59 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 18:03:59 [INFO]: Suppliers already exist, skipping mock data. 
+2026-04-21 18:06:29 [INFO]: Categories already exist, skipping creation 
+2026-04-21 18:06:29 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 18:06:29 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 18:06:29 [INFO]: Suppliers already exist, skipping mock data. 
+2026-04-21 18:06:54 [INFO]: Categories already exist, skipping creation 
+2026-04-21 18:06:54 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 18:06:54 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 18:06:54 [INFO]: Suppliers already exist, skipping mock data. 
+2026-04-21 18:14:37 [INFO]: Categories already exist, skipping creation 
+2026-04-21 18:14:37 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 18:14:37 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 18:14:37 [INFO]: Suppliers already exist, skipping mock data. 
+2026-04-21 18:18:03 [INFO]: Categories already exist, skipping creation 
+2026-04-21 18:18:03 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 18:18:03 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 18:18:03 [INFO]: Mock suppliers seeded 
+2026-04-21 18:18:04 [INFO]: Default admin user created 
+2026-04-21 18:18:53 [INFO]: Categories already exist, skipping creation 
+2026-04-21 18:18:53 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 18:18:53 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 18:18:54 [INFO]: Mock suppliers seeded 
+2026-04-21 18:18:54 [INFO]: Admin user already exists, skipping creation 
+2026-04-21 18:32:59 [INFO]: Categories already exist, skipping creation 
+2026-04-21 18:32:59 [INFO]: Customers already exist, skipping mock data. 
+2026-04-21 18:32:59 [INFO]: Products already exist, skipping mock data. 
+2026-04-21 18:32:59 [INFO]: Mock suppliers seeded 
+2026-04-21 18:32:59 [INFO]: Admin user already exists, skipping creation 
+2026-04-22 19:11:12 [INFO]: Categories already exist, skipping creation 
+2026-04-22 19:11:12 [INFO]: Customers already exist, skipping mock data. 
+2026-04-22 19:11:12 [INFO]: Products already exist, skipping mock data. 
+2026-04-22 19:11:12 [INFO]: Mock suppliers seeded 
+2026-04-22 19:11:12 [ERROR]: Error creating mock delivery records Error
+    at Query.run (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/dialects/mysql/query.js:46:25)
+    at /Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async MySQLQueryInterface.bulkInsert (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/dialects/abstract/query-interface.js:881:21)
+    at async recursiveBulkCreate (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/model.js:2851:25)
+    at async Function.bulkCreate (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/model.js:2977:12)
+    at async createMockDiverily (/Users/chonenykhanthavivong/website-mek-shopping/src/utils/syncDatabase.ts:239:5)
+    at async syncDatabase (/Users/chonenykhanthavivong/website-mek-shopping/src/utils/syncDatabase.ts:44:5)
+2026-04-22 19:11:12 [INFO]: Admin user already exists, skipping creation 
+2026-04-22 19:12:58 [INFO]: Categories already exist, skipping creation 
+2026-04-22 19:12:58 [INFO]: Customers already exist, skipping mock data. 
+2026-04-22 19:12:58 [INFO]: Products already exist, skipping mock data. 
+2026-04-22 19:12:58 [INFO]: Mock suppliers seeded 
+2026-04-22 19:12:58 [ERROR]: Error creating mock delivery records Error
+    at Query.run (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/dialects/mysql/query.js:46:25)
+    at /Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/sequelize.js:650:28
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async MySQLQueryInterface.bulkInsert (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/dialects/abstract/query-interface.js:881:21)
+    at async recursiveBulkCreate (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/model.js:2851:25)
+    at async Function.bulkCreate (/Users/chonenykhanthavivong/website-mek-shopping/node_modules/sequelize/src/model.js:2977:12)
+    at async createMockDiverily (/Users/chonenykhanthavivong/website-mek-shopping/src/utils/syncDatabase.ts:239:5)
+    at async syncDatabase (/Users/chonenykhanthavivong/website-mek-shopping/src/utils/syncDatabase.ts:44:5)
+2026-04-22 19:12:58 [INFO]: Admin user already exists, skipping creation 
+2026-04-22 19:15:09 [INFO]: Categories already exist, skipping creation 
+2026-04-22 19:15:09 [INFO]: Customers already exist, skipping mock data. 
+2026-04-22 19:15:09 [INFO]: Products already exist, skipping mock data. 
+2026-04-22 19:15:09 [INFO]: Mock suppliers seeded 
+2026-04-22 19:15:09 [INFO]: Admin user already exists, skipping creation 
+2026-04-22 19:15:09 [INFO]: Mock delivery records created 
