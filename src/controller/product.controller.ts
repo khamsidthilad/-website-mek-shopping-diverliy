@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import Category from "../models/category.model";
 import Product from "../models/product.model";
-import { options } from "joi";
 import { Op } from "sequelize";
-
+import path from "path";
+import fs from 'fs';
 class ProductController {
   public async getAllProducts(req: Request, res: Response): Promise<void> {
     try {
@@ -167,6 +167,40 @@ class ProductController {
   }
   public async deleteProduct(req: Request, res: Response): Promise<void> {
     try {
+      const { id } = req.params;
+      const productId = Number(id);
+
+      if (isNaN(productId)) {
+        res.status(400).json({
+          success: false,
+          message: "Invalid product ID",
+        });
+        return;
+      }
+
+      const product = await Product.findByPk(productId);
+
+      if (!product) {
+        res.status(404).json({
+          success: false,
+          message: "Product not found",
+        });
+        return;
+      }
+
+      if (product.pro_image) {
+        const imagePath = path.join(__dirname, "../../public", product.pro_image);
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+        }
+      }
+
+      await product.destroy();
+
+      res.status(200).json({
+        success: true,
+        message: "Product deleted successfully",
+      });
     } catch (error) {
       res.status(500).json({
         success: false,
