@@ -1,0 +1,33 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #4CAF50; color: white; padding: 10px; text-align: center; }
+            .footer { background-color: #f1f1f1; padding: 10px; text-align: center; margin-top: 20px; }
+            .payment-details { margin: 20px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>{{shopName}}</h1>
+                <h2>Payment Confirmed</h2>
+            </div>
+            <p>We are pleased to inform you that your payment has been confirmed!</p>
+            <div class="payment-details">
+                <p><strong>Order Number:</strong> #{{orderNumber}}</p>
+                <p><strong>Order Date:</strong> {{orderDate}}</p>
+                <p><strong>Payment Date:</strong> {{paymentDate}}</p>
+                <p><strong>Amount:</strong> ฿{{totalAmount}}</p>
+            </div>
+            <p>Your order is now being processed and will be shipped soon.</p>
+            <div class="footer">
+                <p>© {{shopName}} - All rights reserved</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    

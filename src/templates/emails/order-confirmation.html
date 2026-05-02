@@ -1,0 +1,54 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #4CAF50; color: white; padding: 10px; text-align: center; }
+            .footer { background-color: #f1f1f1; padding: 10px; text-align: center; margin-top: 20px; }
+            .order-details { margin: 20px 0; }
+            table { width: 100%; border-collapse: collapse; }
+            th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+            th { background-color: #f2f2f2; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>{{shopName}}</h1>
+                <h2>Order Confirmation</h2>
+            </div>
+            <p>Thank you for your order!</p>
+            <div class="order-details">
+                <p><strong>Order Number:</strong> #{{orderNumber}}</p>
+                <p><strong>Order Date:</strong> {{orderDate}}</p>
+                <p><strong>Total Amount:</strong> ฿{{totalAmount}}</p>
+            </div>
+            <h3>Order Items:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each items}}
+                    <tr>
+                        <td>{{productName}}</td>
+                        <td>{{quantity}}</td>
+                        <td>฿{{price}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <p>Please upload your payment receipt to confirm your order.</p>
+            <div class="footer">
+                <p>© {{shopName}} - All rights reserved</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    
