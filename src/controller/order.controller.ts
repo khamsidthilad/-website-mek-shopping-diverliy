@@ -237,7 +237,7 @@ class OrderController {
           },
         ],
       });
-      if(!order) {
+      if (!order) {
         res.status(404).json({
           success: false,
           message: "Order not found",
@@ -263,6 +263,57 @@ class OrderController {
     res: Response,
   ): Promise<void> {
     try {
+      // const { orderId } = req.params;
+      const { id } = req.params;
+      const orderId = Number(id);
+      if (isNaN(orderId)) {
+        res.status(400).json({
+          success: false,
+          message: "Invalid order ID",
+        });
+        return;
+      }
+      const order = await Order.findByPk(orderId);
+      if (!order) {
+        res.status(404).json({
+          success: false,
+          message: "Order not found",
+        });
+        return;
+      }
+
+      if (order.payment_status === "verified") {
+        res.status(400).json({
+          success: false,
+          message: "Payment already verified",
+        });
+        return;
+      }
+
+      let paymentImage = null;
+      if (req.file) {
+        paymentImage = `/uploads/payments/${req.file.filename}`;
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Payment receipt file is required",
+        });
+        return;
+      }
+
+      await order.update({
+        payment_image: paymentImage,
+        payment_status: "pending",
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Payment receipt uploaded successfully",
+        data: {
+          orderId: order.order_id,
+          paymentStatus: order.payment_status,
+        },
+      });
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -274,11 +325,72 @@ class OrderController {
 
   public async getReportOrder(req: Request, res: Response): Promise<void> {
     try {
+      const orders = await Order.findAll({
+        include: [
+          {
+            model: Customer,
+            as: "customer",
+          },
+          {
+            model: BillSellDetail,
+            as: "billDetails",
+            include: [
+              {
+                model: Product,
+                as: "product",
+              },
+            ],
+          },
+        ],
+        order: [["date", "DESC"]],
+      });
+
+      res.status(200).json({
+        success: true,
+        data: orders,
+      });
     } catch (error) {
       res.status(500).json({
         success: false,
         message: "Failed to generate order report",
         error: serializeError(error),
+      });
+    }
+  }
+
+  public async getCustomerOrders(req: Request, res: Response): Promise<void> {
+    try {
+      const { customerId } = req.params;
+      console.log("customerID", customerId);
+
+      const orders = await Order.findAll({
+        where: {
+          cus_id: customerId,
+        },
+        include: [
+          {
+            model: BillSellDetail,
+            as: "billDetails",
+            include: [
+              {
+                model: Product,
+                as: "product",
+              },
+            ],
+          },
+        ],
+        order: [["date", "DESC"]],
+      });
+
+      res.status(200).json({
+        success: true,
+        data: orders,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch customer orders",
+        error,
       });
     }
   }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate, isCustomer, isStaff } from '../middleware/auth.';
+import { authenticate, isCustomer, isOwnCustomer, isStaff } from '../middleware/auth.';
 import OrderController from '../controller/order.controller';
 import { handleUploadError, uploadPaymentReceipt } from '../middleware/upload';
 
@@ -18,7 +18,7 @@ router.post(
 
 router.get('/:orderId', authenticate, OrderController.getOrderDetails);
 // router.post('/status', OrderController.getOrdersByStatus);
-// router.get('/customers/:id/orders', authenticate, isOwnCustomer, OrderController.getCustomerOrders);
+router.get('/customers/:id/orders', authenticate, isOwnCustomer, OrderController.getCustomerOrders);
 // router.get('/', authenticate, isStaff, OrderController.getAllOrders);
 
 export default router;
