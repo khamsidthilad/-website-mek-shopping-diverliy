@@ -5,6 +5,8 @@ import productRoutes from './product.routes';
 import customerRoutes from './customer.routes';
 import categoryRoutes from './category.routes';
 import orderRoutes from './order.routes';
+import billRoutes from './bill.routes';
+import supplierRoutes from './supplier.routes';
 
 const router = express.Router();
 
@@ -27,4 +29,6 @@ router.use('/products', productRoutes);
 router.use('/customers', customerRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/orders', orderRoutes);
+router.use('/bills', billRoutes);
+router.use('/suppliers', supplierRoutes);
 export default router;

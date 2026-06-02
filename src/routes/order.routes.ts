@@ -17,7 +17,7 @@ router.post(
 );
 
 router.get('/:orderId', authenticate, OrderController.getOrderDetails);
-// router.post('/status', OrderController.getOrdersByStatus);
+router.put('/:orderId/status', authenticate, isStaff, OrderController.updateOrderStatus);
 router.get('/customers/:id/orders', authenticate, isOwnCustomer, OrderController.getCustomerOrders);
 // router.get('/', authenticate, isStaff, OrderController.getAllOrders);
 

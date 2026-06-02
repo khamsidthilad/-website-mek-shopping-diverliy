@@ -210,8 +210,11 @@ class OrderController {
 
   public async getOrderDetails(req: Request, res: Response): Promise<void> {
     try {
-      const orderId = parseInt((req.params as Record<string, string>).id, 10);
-      if (isNaN(orderId)) {
+      const raw =
+        (req.params as Record<string, string>).orderId ??
+        (req.params as Record<string, string>).id;
+      const orderId = parseInt(String(raw), 10);
+      if (!Number.isInteger(orderId) || orderId < 1) {
         res.status(400).json({
           success: false,
           message: "Invalid order ID",
@@ -263,10 +266,11 @@ class OrderController {
     res: Response,
   ): Promise<void> {
     try {
-      // const { orderId } = req.params;
-      const { id } = req.params;
-      const orderId = Number(id);
-      if (isNaN(orderId)) {
+      const raw =
+        (req.params as Record<string, string>).orderId ??
+        (req.params as Record<string, string>).id;
+      const orderId = parseInt(String(raw), 10);
+      if (!Number.isInteger(orderId) || orderId < 1) {
         res.status(400).json({
           success: false,
           message: "Invalid order ID",
@@ -360,8 +364,17 @@ class OrderController {
 
   public async getCustomerOrders(req: Request, res: Response): Promise<void> {
     try {
-      const { customerId } = req.params;
-      console.log("customerID", customerId);
+      const raw =
+        (req.params as Record<string, string>).customerId ??
+        (req.params as Record<string, string>).id;
+      const customerId = parseInt(String(raw), 10);
+      if (!Number.isInteger(customerId) || customerId < 1) {
+        res.status(400).json({
+          success: false,
+          message: "Invalid customer ID",
+        });
+        return;
+      }
 
       const orders = await Order.findAll({
         where: {
@@ -391,6 +404,60 @@ class OrderController {
         success: false,
         message: "Failed to fetch customer orders",
         error,
+      });
+    }
+  }
+  public async updateOrderStatus(req: Request, res: Response): Promise<void> {
+    try {
+      const raw =
+        (req.params as Record<string, string>).orderId ??
+        (req.params as Record<string, string>).id;
+      const orderId = parseInt(String(raw), 10);
+      if (!Number.isInteger(orderId) || orderId < 1) {
+        res.status(400).json({
+          success: false,
+          message: "Invalid order ID",
+        });
+        return;
+      }
+
+      const statusRaw = (req.body as { status?: unknown } | undefined)?.status;
+      const status = typeof statusRaw === "string" ? statusRaw.trim() : "";
+      const allowed = new Set([
+        "waiting",
+        "processing",
+        "shipped",
+        "delivered",
+        "cancelled",
+      ]);
+      if (!allowed.has(status)) {
+        res.status(400).json({
+          success: false,
+          message:
+            'Invalid status. Allowed: "waiting", "processing", "shipped", "delivered", "cancelled".',
+        });
+        return;
+      }
+
+      const order = await Order.findByPk(orderId);
+      if (!order) {
+        res.status(404).json({
+          success: false,
+          message: "Order not found",
+        });
+        return;
+      }
+      await order.update({ shipping_status: status });
+      res.status(200).json({
+        success: true,
+        message: "Order status updated successfully",
+        data: order,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to update order status",
+        error: serializeError(error),
       });
     }
   }

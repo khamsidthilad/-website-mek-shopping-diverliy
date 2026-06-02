@@ -68,11 +68,31 @@ export const uploadProductImage = multer({
     fileFilter
 }).single('image');
 
-export const uploadPaymentReceipt = multer({
-    storage: paymentStorage,
-    limits: { fileSize: 10 * 1024 * 1024 },
-    fileFilter
-}).single('receipt');
+// Normalize uploadPaymentReceipt to behave like `.single()` by setting `req.file`.
+// Accepts one of: receipt | image | file.
+export const uploadPaymentReceipt = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const uploader = multer({
+        storage: paymentStorage,
+        limits: { fileSize: 10 * 1024 * 1024 },
+        fileFilter
+    }).any();
+
+    uploader(req, res, (err: any) => {
+        if (err) return next(err);
+
+        const files = (req as any).files as Express.Multer.File[] | undefined;
+        if (Array.isArray(files) && files.length > 1) {
+            return next(new Error('Only one payment receipt file is allowed.'));
+        }
+
+        (req as any).file = Array.isArray(files) ? files[0] : undefined;
+        next();
+    });
+};
 
 export const uploadBrandLogo = multer({
     storage: brandLogoStorage,

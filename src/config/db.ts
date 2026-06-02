@@ -7,31 +7,23 @@ dotenv.config({
   path: process.env.ENV_PATH || path.resolve(process.cwd(), ".env"),
 });
 
-const dbName = process.env.DB_NAME?.trim() ?? "";
-const dbUser = process.env.DB_USER?.trim() ?? "";
-const dbPass = process.env.DB_PASSWORD ?? process.env.DB_PASS ?? "";
-const dbHost = process.env.DB_HOST?.trim() || "localhost";
-const dbPortRaw = Number(process.env.DB_PORT);
-const dbPort = Number.isFinite(dbPortRaw) && dbPortRaw > 0 ? dbPortRaw : 3306;
+const connectionString = process.env.CONNECTION_STRING?.trim() ?? "";
 
-if (!dbName || !dbUser) {
-  // Avoid crashing during import; `testConnection()` will surface a clear error.
+if (!connectionString) {
   console.warn(
-    "Database config incomplete: set DB_NAME and DB_USER in .env (project root).",
+    "Database config incomplete: set CONNECTION_STRING in .env (project root).",
   );
 }
 
-const sequelize = new Sequelize(dbName, dbUser, dbPass, {
-  host: dbHost,
-  port: dbPort,
-  dialect: "mysql",
+const sequelize = new Sequelize(connectionString, {
+  dialect: "postgres",
   logging: process.env.DB_LOG_SQL === "true" ? console.log : false,
 });
 
 const testConnection = async () => {
   try {
-    if (!dbName || !dbUser) {
-      throw new Error("Missing DB_NAME/DB_USER in .env");
+    if (!connectionString) {
+      throw new Error("Missing CONNECTION_STRING in .env");
     }
     await sequelize.authenticate();
     console.log("Database connection has been established successfully.");
