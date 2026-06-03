@@ -7,24 +7,58 @@ dotenv.config({
   path: process.env.ENV_PATH || path.resolve(process.cwd(), ".env"),
 });
 
-const connectionString = process.env.CONNECTION_STRING?.trim() ?? "";
+type DbDialect = "mysql" | "postgres";
 
-if (!connectionString) {
-  console.warn(
-    "Database config incomplete: set CONNECTION_STRING in .env (project root).",
-  );
+function resolveDialect(): DbDialect {
+  const configured = process.env.DB_DIALECT?.trim().toLowerCase();
+  if (configured === "mysql" || configured === "postgres") {
+    return configured;
+  }
+
+  const url = process.env.CONNECTION_STRING?.trim() ?? "";
+  if (url.startsWith("postgres://")) return "postgres";
+  if (url.startsWith("mysql://")) return "mysql";
+
+  const port = process.env.DB_PORT?.trim();
+  if (port === "5432") return "postgres";
+
+  return "mysql";
 }
 
-const sequelize = new Sequelize(connectionString, {
-  dialect: "postgres",
-  logging: process.env.DB_LOG_SQL === "true" ? console.log : false,
-});
+function createSequelize(): Sequelize {
+  const dialect = resolveDialect();
+  const logging = process.env.DB_LOG_SQL === "true" ? console.log : false;
+  const connectionString = process.env.CONNECTION_STRING?.trim();
+
+  if (connectionString) {
+    return new Sequelize(connectionString, { dialect, logging });
+  }
+
+  const host = process.env.DB_HOST?.trim();
+  const user = process.env.DB_USER?.trim();
+  const database = process.env.DB_NAME?.trim();
+  const password = process.env.DB_PASSWORD ?? "";
+  const defaultPort = dialect === "postgres" ? "5432" : "3306";
+  const port = Number(process.env.DB_PORT?.trim() || defaultPort);
+
+  if (!host || !user || !database) {
+    throw new Error(
+      "Database config incomplete: set CONNECTION_STRING or DB_HOST, DB_USER, DB_PASSWORD, DB_NAME (and optionally DB_PORT, DB_DIALECT) in .env.",
+    );
+  }
+
+  return new Sequelize(database, user, password, {
+    host,
+    port,
+    dialect,
+    logging,
+  });
+}
+
+const sequelize = createSequelize();
 
 const testConnection = async () => {
   try {
-    if (!connectionString) {
-      throw new Error("Missing CONNECTION_STRING in .env");
-    }
     await sequelize.authenticate();
     console.log("Database connection has been established successfully.");
   } catch (error) {

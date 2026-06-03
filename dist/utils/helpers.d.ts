@@ -1,0 +1,55 @@
+import { Request } from 'express';
+export declare const generateRandomString: (length?: number) => string;
+export declare const generateUniqueFilename: (originalname: string) => string;
+export declare const sanitizeFilename: (filename: string) => string;
+export declare const formatCurrency: (amount: number, currency?: string) => string;
+export declare const formatDate: (date: Date | string, format?: string) => string;
+export declare const getPaginationData: (req: Request, total: number) => {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+};
+export declare const calculateOffset: (page: number, limit: number) => number;
+export declare const bahtToSatang: (amount: number) => number;
+export declare const satangToBaht: (amount: number) => number;
+export declare const generateOrderNumber: () => string;
+export declare const generateTrackingNumber: () => string;
+export declare const fileExists: (filepath: string) => boolean;
+export declare const removeFileIfExists: (filepath: string) => boolean;
+export declare const thaiDateToISODate: (thaiDate: string) => string;
+export declare const truncateText: (text: string, length: number, suffix?: string) => string;
+export declare const maskSensitiveData: (data: any, fieldsToMask?: string[]) => any;
+export declare const isValidEmail: (email: string) => boolean;
+export declare const isValidThaiPhone: (phone: string) => boolean;
+declare const _default: {
+    generateRandomString: (length?: number) => string;
+    generateUniqueFilename: (originalname: string) => string;
+    sanitizeFilename: (filename: string) => string;
+    formatCurrency: (amount: number, currency?: string) => string;
+    formatDate: (date: Date | string, format?: string) => string;
+    getPaginationData: (req: Request, total: number) => {
+        currentPage: number;
+        totalPages: number;
+        totalItems: number;
+        itemsPerPage: number;
+        hasNextPage: boolean;
+        hasPrevPage: boolean;
+    };
+    calculateOffset: (page: number, limit: number) => number;
+    bahtToSatang: (amount: number) => number;
+    satangToBaht: (amount: number) => number;
+    generateOrderNumber: () => string;
+    generateTrackingNumber: () => string;
+    fileExists: (filepath: string) => boolean;
+    removeFileIfExists: (filepath: string) => boolean;
+    thaiDateToISODate: (thaiDate: string) => string;
+    truncateText: (text: string, length: number, suffix?: string) => string;
+    maskSensitiveData: (data: any, fieldsToMask?: string[]) => any;
+    isValidEmail: (email: string) => boolean;
+    isValidThaiPhone: (phone: string) => boolean;
+};
+export default _default;
+//# sourceMappingURL=helpers.d.ts.map
