@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Category from "../models/category.model";
+import Brand from "../models/brand.model";
 import Product from "../models/product.model";
 import { Op } from "sequelize";
 import path from "path";
@@ -8,13 +9,15 @@ class ProductController {
   public async getAllProducts(req: Request, res: Response): Promise<void> {
     try {
       const products = await Product.findAll({
-        include: [{ model: Category, as: "category" }],
+        include: [
+          { model: Category, as: "category" },
+          { model: Brand, as: "brand" },
+        ],
       });
       res.status(200).json({
         success: true,
         data: products,
       });
-      console.log("Fetched products", { products });
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -39,7 +42,10 @@ class ProductController {
       }
 
       const products = await Product.findByPk(productId, {
-        include: [{ model: Category, as: "category" }],
+        include: [
+          { model: Category, as: "category" },
+          { model: Brand, as: "brand" },
+        ],
       });
       if (!products) {
         res.status(404).json({
@@ -71,7 +77,10 @@ class ProductController {
             [Op.like]: `%${term}%`,
           },
         },
-        include: [{ model: Category, as: "category" }],
+        include: [
+          { model: Category, as: "category" },
+          { model: Brand, as: "brand" },
+        ],
       });
       res.status(200).json({
         success: true,
@@ -88,7 +97,7 @@ class ProductController {
 
   public async createProduct(req: Request, res: Response): Promise<void> {
     try {
-      const { pro_name, pro_detail, pro_price, pro_qty, cate_id } = req.body;
+      const { pro_name, pro_detail, pro_price, pro_qty, cate_id, brand_id } = req.body;
       let pro_image = null;
       if (req.file) {
         pro_image = req.file.filename;
@@ -101,6 +110,7 @@ class ProductController {
         pro_qty,
         pro_image,
         cate_id,
+        brand_id: brand_id ?? null,
       });
 
       res.status(201).json({
@@ -118,7 +128,7 @@ class ProductController {
   public async updateProduct(req: Request, res: Response): Promise<void> {
     try {
       const {id } = req.params;
-      const { pro_name, pro_detail, pro_price, pro_qty, cate_id } = req.body;
+      const { pro_name, pro_detail, pro_price, pro_qty, cate_id, brand_id } = req.body;
       let pro_image = null;
       if (req.file) {
         pro_image = req.file.filename;
@@ -151,6 +161,7 @@ class ProductController {
         pro_qty,
         pro_image,
         cate_id,
+        brand_id: brand_id !== undefined ? brand_id : product.brand_id,
       });
 
       res.status(200).json({

@@ -8,6 +8,8 @@ import orderRoutes from './order.routes';
 import billRoutes from './bill.routes';
 import supplierRoutes from './supplier.routes';
 import importRoutes from './import.routes';
+import brandRoutes from './brand.routes';
+import brandCateRoutes from './brandCate.routes';
 
 const router = express.Router();
 
@@ -33,4 +35,6 @@ router.use('/orders', orderRoutes);
 router.use('/bills', billRoutes);
 router.use('/suppliers', supplierRoutes);
 router.use('/imports', importRoutes);
+router.use('/brands', brandRoutes);
+router.use('/brand-categories', brandCateRoutes);
 export default router;

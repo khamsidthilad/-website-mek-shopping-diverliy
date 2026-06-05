@@ -9,6 +9,7 @@ interface ProductAttributes {
   pro_image: string | null;
   pro_qty: number | null;
   cate_id: number | null;
+  brand_id: number | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -16,7 +17,7 @@ interface ProductAttributes {
 interface ProductCreationAttributes
   extends Optional<
     ProductAttributes,
-    "pro_id" | "pro_name" | "pro_price" | "pro_image" | "pro_qty" | "cate_id"
+    "pro_id" | "pro_name" | "pro_price" | "pro_image" | "pro_qty" | "cate_id" | "brand_id"
   > {}
 
 class Product extends Model<ProductAttributes, ProductCreationAttributes>
@@ -28,6 +29,7 @@ class Product extends Model<ProductAttributes, ProductCreationAttributes>
   public pro_image!: string | null;
   public pro_qty!: number | null;
   public cate_id!: number | null;
+  public brand_id!: number | null;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -45,6 +47,13 @@ Product.init(
     pro_image: { type: DataTypes.STRING(500), allowNull: true },
     pro_qty: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true, defaultValue: 0 },
     cate_id: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true },
+    brand_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: true,
+      references: { model: "brand", key: "brand_id" },
+      onDelete: "SET NULL",
+      onUpdate: "CASCADE",
+    },
   },
   {
     sequelize,

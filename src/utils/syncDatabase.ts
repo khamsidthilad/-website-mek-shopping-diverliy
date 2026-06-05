@@ -13,6 +13,8 @@ import {
   Diverily,
 } from "../models";
 import Category from "../models/category.model";
+import Brand from "../models/brand.model";
+import BrandCategory from "../models/brandCategory.model";
 
 dotenv.config();
 
@@ -26,6 +28,9 @@ export const syncDatabase = async (
     // Sync tables in FK-safe order and seed parent tables first.
     await Category.sync({ alter, force });
     await createDefaultCategories();
+
+    await Brand.sync({ alter, force });
+    await BrandCategory.sync({ alter, force });
 
     await Customer.sync({ alter, force });
     await createMockCustomers();
