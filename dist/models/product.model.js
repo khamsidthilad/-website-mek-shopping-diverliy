@@ -16,6 +16,13 @@ Product.init({
     pro_image: { type: sequelize_1.DataTypes.STRING(500), allowNull: true },
     pro_qty: { type: sequelize_1.DataTypes.INTEGER.UNSIGNED, allowNull: true, defaultValue: 0 },
     cate_id: { type: sequelize_1.DataTypes.INTEGER.UNSIGNED, allowNull: true },
+    brand_id: {
+        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
+        allowNull: true,
+        references: { model: "brand", key: "brand_id" },
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    },
 }, {
     sequelize: db_1.sequelize,
     tableName: "product",

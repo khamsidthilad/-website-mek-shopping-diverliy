@@ -43,6 +43,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const user_model_1 = __importDefault(require("../models/user.model"));
 const models_1 = require("../models");
 const category_model_1 = __importDefault(require("../models/category.model"));
+const brand_model_1 = __importDefault(require("../models/brand.model"));
+const brandCategory_model_1 = __importDefault(require("../models/brandCategory.model"));
 dotenv_1.default.config();
 const syncDatabase = async (force = false, alter = true) => {
     try {
@@ -50,6 +52,8 @@ const syncDatabase = async (force = false, alter = true) => {
         // Sync tables in FK-safe order and seed parent tables first.
         await category_model_1.default.sync({ alter, force });
         await createDefaultCategories();
+        await brand_model_1.default.sync({ alter, force });
+        await brandCategory_model_1.default.sync({ alter, force });
         await models_1.Customer.sync({ alter, force });
         await createMockCustomers();
         await models_1.Product.sync({ alter, force });

@@ -82,11 +82,30 @@ const uploadPaymentReceipt = (req, res, next) => {
     });
 };
 exports.uploadPaymentReceipt = uploadPaymentReceipt;
-exports.uploadBrandLogo = (0, multer_1.default)({
-    storage: brandLogoStorage,
-    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit for brand logos
-    fileFilter
-}).single('logo');
+const BRAND_LOGO_FIELDS = ['logo', 'brand_logo', 'brandLogo', 'image', 'file'];
+// Normalize uploadBrandLogo to behave like `.single()` by setting `req.file`.
+// Accepts one of: logo | brand_logo | brandLogo | image | file.
+const uploadBrandLogo = (req, res, next) => {
+    const uploader = (0, multer_1.default)({
+        storage: brandLogoStorage,
+        limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit for brand logos
+        fileFilter
+    }).any();
+    uploader(req, res, (err) => {
+        if (err)
+            return next(err);
+        const files = req.files;
+        const logoFiles = Array.isArray(files)
+            ? files.filter((file) => BRAND_LOGO_FIELDS.includes(file.fieldname))
+            : [];
+        if (logoFiles.length > 1) {
+            return next(new Error('Only one brand logo file is allowed.'));
+        }
+        req.file = logoFiles[0];
+        next();
+    });
+};
+exports.uploadBrandLogo = uploadBrandLogo;
 const handleUploadError = (err, req, res, next) => {
     if (err instanceof multer_1.default.MulterError) {
         if (err.code === 'LIMIT_FILE_SIZE') {

@@ -135,3 +135,9 @@
 2026-06-04 21:45:24 [INFO]: Mock suppliers seeded 
 2026-06-04 21:45:24 [INFO]: Admin user already exists, skipping creation 
 2026-06-04 21:45:24 [INFO]: Delivery records already exist, skipping mock data. 
+2026-06-05 10:07:20 [INFO]: Categories already exist, skipping creation 
+2026-06-05 10:07:20 [INFO]: Customers already exist, skipping mock data. 
+2026-06-05 10:07:20 [INFO]: Products already exist, skipping mock data. 
+2026-06-05 10:07:20 [INFO]: Mock suppliers seeded 
+2026-06-05 10:07:20 [INFO]: Admin user already exists, skipping creation 
+2026-06-05 10:07:20 [INFO]: Delivery records already exist, skipping mock data. 

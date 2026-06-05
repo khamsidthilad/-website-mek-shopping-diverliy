@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const category_model_1 = __importDefault(require("../models/category.model"));
+const brand_model_1 = __importDefault(require("../models/brand.model"));
 const product_model_1 = __importDefault(require("../models/product.model"));
 const sequelize_1 = require("sequelize");
 const path_1 = __importDefault(require("path"));
@@ -12,13 +13,15 @@ class ProductController {
     async getAllProducts(req, res) {
         try {
             const products = await product_model_1.default.findAll({
-                include: [{ model: category_model_1.default, as: "category" }],
+                include: [
+                    { model: category_model_1.default, as: "category" },
+                    { model: brand_model_1.default, as: "brand" },
+                ],
             });
             res.status(200).json({
                 success: true,
                 data: products,
             });
-            console.log("Fetched products", { products });
         }
         catch (error) {
             res.status(500).json({
@@ -41,7 +44,10 @@ class ProductController {
                 return;
             }
             const products = await product_model_1.default.findByPk(productId, {
-                include: [{ model: category_model_1.default, as: "category" }],
+                include: [
+                    { model: category_model_1.default, as: "category" },
+                    { model: brand_model_1.default, as: "brand" },
+                ],
             });
             if (!products) {
                 res.status(404).json({
@@ -72,7 +78,10 @@ class ProductController {
                         [sequelize_1.Op.like]: `%${term}%`,
                     },
                 },
-                include: [{ model: category_model_1.default, as: "category" }],
+                include: [
+                    { model: category_model_1.default, as: "category" },
+                    { model: brand_model_1.default, as: "brand" },
+                ],
             });
             res.status(200).json({
                 success: true,
@@ -89,7 +98,7 @@ class ProductController {
     }
     async createProduct(req, res) {
         try {
-            const { pro_name, pro_detail, pro_price, pro_qty, cate_id } = req.body;
+            const { pro_name, pro_detail, pro_price, pro_qty, cate_id, brand_id } = req.body;
             let pro_image = null;
             if (req.file) {
                 pro_image = req.file.filename;
@@ -101,6 +110,7 @@ class ProductController {
                 pro_qty,
                 pro_image,
                 cate_id,
+                brand_id: brand_id ?? null,
             });
             res.status(201).json({
                 success: true,
@@ -118,7 +128,7 @@ class ProductController {
     async updateProduct(req, res) {
         try {
             const { id } = req.params;
-            const { pro_name, pro_detail, pro_price, pro_qty, cate_id } = req.body;
+            const { pro_name, pro_detail, pro_price, pro_qty, cate_id, brand_id } = req.body;
             let pro_image = null;
             if (req.file) {
                 pro_image = req.file.filename;
@@ -147,6 +157,7 @@ class ProductController {
                 pro_qty,
                 pro_image,
                 cate_id,
+                brand_id: brand_id !== undefined ? brand_id : product.brand_id,
             });
             res.status(200).json({
                 success: true,

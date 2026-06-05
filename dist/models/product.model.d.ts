@@ -7,10 +7,11 @@ interface ProductAttributes {
     pro_image: string | null;
     pro_qty: number | null;
     cate_id: number | null;
+    brand_id: number | null;
     createdAt?: Date;
     updatedAt?: Date;
 }
-interface ProductCreationAttributes extends Optional<ProductAttributes, "pro_id" | "pro_name" | "pro_price" | "pro_image" | "pro_qty" | "cate_id"> {
+interface ProductCreationAttributes extends Optional<ProductAttributes, "pro_id" | "pro_name" | "pro_price" | "pro_image" | "pro_qty" | "cate_id" | "brand_id"> {
 }
 declare class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
     pro_id: number;
@@ -20,6 +21,7 @@ declare class Product extends Model<ProductAttributes, ProductCreationAttributes
     pro_image: string | null;
     pro_qty: number | null;
     cate_id: number | null;
+    brand_id: number | null;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }

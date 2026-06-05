@@ -8,5 +8,7 @@ import Category from "./category.model";
 import Supplier from "./supplier.model";
 import Purchase from "./importProdcut.model";
 import Diverily from "./diverily.model";
-export { sequelize, User, Customer, Product, Order, BillSellDetail, Category, Supplier, Purchase, Diverily, };
+import Brand from "./brand.model";
+import BrandCategory from "./brandCategory.model";
+export { sequelize, User, Customer, Product, Order, BillSellDetail, Category, Supplier, Purchase, Diverily, Brand, BrandCategory, };
 //# sourceMappingURL=index.d.ts.map

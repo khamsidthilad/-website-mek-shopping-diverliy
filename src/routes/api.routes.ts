@@ -36,5 +36,5 @@ router.use('/bills', billRoutes);
 router.use('/suppliers', supplierRoutes);
 router.use('/imports', importRoutes);
 router.use('/brands', brandRoutes);
-router.use('/brand-categories', brandCateRoutes);
+router.use('/brand-category', brandCateRoutes);
 export default router;

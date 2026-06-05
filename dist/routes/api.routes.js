@@ -13,6 +13,8 @@ const order_routes_1 = __importDefault(require("./order.routes"));
 const bill_routes_1 = __importDefault(require("./bill.routes"));
 const supplier_routes_1 = __importDefault(require("./supplier.routes"));
 const import_routes_1 = __importDefault(require("./import.routes"));
+const brand_routes_1 = __importDefault(require("./brand.routes"));
+const brandCate_routes_1 = __importDefault(require("./brandCate.routes"));
 const router = express_1.default.Router();
 router.get('/health', (req, res) => {
     res.status(200).json({
@@ -34,5 +36,7 @@ router.use('/orders', order_routes_1.default);
 router.use('/bills', bill_routes_1.default);
 router.use('/suppliers', supplier_routes_1.default);
 router.use('/imports', import_routes_1.default);
+router.use('/brands', brand_routes_1.default);
+router.use('/brand-categories', brandCate_routes_1.default);
 exports.default = router;
 //# sourceMappingURL=api.routes.js.map

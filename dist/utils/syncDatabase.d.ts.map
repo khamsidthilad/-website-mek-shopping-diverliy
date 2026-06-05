@@ -1,1 +1,1 @@
-{"version":3,"file":"syncDatabase.d.ts","sourceRoot":"","sources":["../../src/utils/syncDatabase.ts"],"names":[],"mappings":"AAkBA,eAAO,MAAM,YAAY,GACvB,QAAO,OAAe,EACtB,QAAO,OAAc,KACpB,OAAO,CAAC,IAAI,CA+Bd,CAAC;AA0NF,eAAe,YAAY,CAAC"}
+{"version":3,"file":"syncDatabase.d.ts","sourceRoot":"","sources":["../../src/utils/syncDatabase.ts"],"names":[],"mappings":"AAoBA,eAAO,MAAM,YAAY,GACvB,QAAO,OAAe,EACtB,QAAO,OAAc,KACpB,OAAO,CAAC,IAAI,CAkCd,CAAC;AA0NF,eAAe,YAAY,CAAC"}

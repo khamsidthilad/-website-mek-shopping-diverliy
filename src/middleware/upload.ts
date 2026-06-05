@@ -62,11 +62,37 @@ const fileFilter = (
     }
 };
 
-export const uploadProductImage = multer({
-    storage: productStorage,
-    limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter
-}).single('image');
+const PRODUCT_IMAGE_FIELDS = ['image', 'pro_image', 'proImage', 'file'];
+
+// Normalize uploadProductImage to behave like `.single()` by setting `req.file`.
+// Accepts one of: image | pro_image | proImage | file.
+export const uploadProductImage = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const uploader = multer({
+        storage: productStorage,
+        limits: { fileSize: 5 * 1024 * 1024 },
+        fileFilter
+    }).any();
+
+    uploader(req, res, (err: any) => {
+        if (err) return next(err);
+
+        const files = (req as any).files as Express.Multer.File[] | undefined;
+        const imageFiles = Array.isArray(files)
+            ? files.filter((file) => PRODUCT_IMAGE_FIELDS.includes(file.fieldname))
+            : [];
+
+        if (imageFiles.length > 1) {
+            return next(new Error('Only one product image file is allowed.'));
+        }
+
+        (req as any).file = imageFiles[0];
+        next();
+    });
+};
 
 // Normalize uploadPaymentReceipt to behave like `.single()` by setting `req.file`.
 // Accepts one of: receipt | image | file.
@@ -94,11 +120,37 @@ export const uploadPaymentReceipt = (
     });
 };
 
-export const uploadBrandLogo = multer({
-    storage: brandLogoStorage,
-    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit for brand logos
-    fileFilter
-}).single('logo');
+const BRAND_LOGO_FIELDS = ['logo', 'brand_logo', 'brandLogo', 'image', 'file'];
+
+// Normalize uploadBrandLogo to behave like `.single()` by setting `req.file`.
+// Accepts one of: logo | brand_logo | brandLogo | image | file.
+export const uploadBrandLogo = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const uploader = multer({
+        storage: brandLogoStorage,
+        limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit for brand logos
+        fileFilter
+    }).any();
+
+    uploader(req, res, (err: any) => {
+        if (err) return next(err);
+
+        const files = (req as any).files as Express.Multer.File[] | undefined;
+        const logoFiles = Array.isArray(files)
+            ? files.filter((file) => BRAND_LOGO_FIELDS.includes(file.fieldname))
+            : [];
+
+        if (logoFiles.length > 1) {
+            return next(new Error('Only one brand logo file is allowed.'));
+        }
+
+        (req as any).file = logoFiles[0];
+        next();
+    });
+};
 
 export const handleUploadError = (
     err: Error,
