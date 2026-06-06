@@ -15,7 +15,12 @@ router.post(
   handleUploadError,
   ProductController.createProduct,
 );
-router.put("/update/:id", ProductController.updateProduct);
+router.put(
+  "/update/:id",
+  uploadProductImage,
+  handleUploadError,
+  ProductController.updateProduct,
+);
 router.delete("/delete/:id", ProductController.deleteProduct);
 
 export default router;

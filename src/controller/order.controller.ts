@@ -182,6 +182,12 @@ class OrderController {
           },
           { transaction },
         );
+
+        await Product.decrement("pro_qty", {
+          by: line.quantity,
+          where: { pro_id: line.productId },
+          transaction,
+        });
       }
 
       await transaction.commit();
