@@ -15,6 +15,7 @@ router.post(
     handleUploadError,
     OrderController.uploadPaymentReceipt
 );
+router.put('/:orderId/cancel', authenticate, isCustomer, OrderController.cancelOrder);
 
 router.get('/:orderId', authenticate, OrderController.getOrderDetails);
 router.put('/:orderId/status', authenticate, isStaff, OrderController.updateOrderStatus);
