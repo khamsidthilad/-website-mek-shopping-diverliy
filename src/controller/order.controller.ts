@@ -4,6 +4,7 @@ import { sequelize } from "../config/db";
 import Customer from "../models/customer.model";
 import Order from "../models/order.model";
 import BillSellDetail from "../models/billSellDetail.model";
+import OrderService from "../services/OrderService";
 
 type AuthUser = { customerId?: number; role?: string };
 
@@ -463,6 +464,115 @@ class OrderController {
       res.status(500).json({
         success: false,
         message: "Failed to update order status",
+        error: serializeError(error),
+      });
+    }
+  }
+
+  public async cancelOrder(req: Request, res: Response): Promise<void> {
+    try {
+      const raw =
+        (req.params as Record<string, string>).orderId ??
+        (req.params as Record<string, string>).id;
+      const orderId = parseInt(String(raw), 10);
+      if (!Number.isInteger(orderId) || orderId < 1) {
+        res.status(400).json({
+          success: false,
+          message: "Invalid order ID",
+        });
+        return;
+      }
+
+      const user = (req as Request & { user?: AuthUser }).user;
+      const order = await Order.findByPk(orderId);
+
+      if (!order) {
+        res.status(404).json({
+          success: false,
+          message: "Order not found",
+        });
+        return;
+      }
+
+      if (
+        user?.role === "customer" &&
+        user.customerId != null &&
+        order.cus_id !== user.customerId
+      ) {
+        res.status(403).json({
+          success: false,
+          message: "Access denied. You can only cancel your own orders.",
+        });
+        return;
+      }
+
+      if (order.shipping_status === "cancelled") {
+        res.status(400).json({
+          success: false,
+          message: "Order is already cancelled",
+        });
+        return;
+      }
+
+      const paymentStatus = (order.payment_status ?? "").toLowerCase();
+      const paidStatuses = new Set([
+        "verified",
+        "paid",
+        "approved",
+        "completed",
+        "success",
+        "submitted",
+        "reviewing",
+        "processing",
+        "pending_review",
+        "uploaded",
+      ]);
+      if (paidStatuses.has(paymentStatus) || order.payment_image) {
+        res.status(400).json({
+          success: false,
+          message: "Cannot cancel order that has already been paid",
+        });
+        return;
+      }
+
+      const cancelled = await OrderService.cancelOrder(orderId);
+      if (!cancelled) {
+        res.status(400).json({
+          success: false,
+          message:
+            "Cannot cancel this order. It may have already been paid, shipped, or delivered.",
+        });
+        return;
+      }
+
+      const updated = await Order.findByPk(orderId, {
+        include: [
+          {
+            model: Customer,
+            as: "customer",
+          },
+          {
+            model: BillSellDetail,
+            as: "billDetails",
+            include: [
+              {
+                model: Product,
+                as: "product",
+              },
+            ],
+          },
+        ],
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Order cancelled successfully",
+        data: updated,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to cancel order",
         error: serializeError(error),
       });
     }

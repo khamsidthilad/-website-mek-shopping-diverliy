@@ -147,8 +147,22 @@ class OrderService {
                 await transaction.rollback();
                 throw new Error('Cannot cancel order that has been shipped or delivered');
             }
-            if (order.payment_status === 'verified') {
-                await StockService.restoreStock(orderId, transaction);
+            const paymentStatus = (order.payment_status ?? '').toLowerCase();
+            const paidStatuses = new Set([
+                'verified',
+                'paid',
+                'approved',
+                'completed',
+                'success',
+                'submitted',
+                'reviewing',
+                'processing',
+                'pending_review',
+                'uploaded',
+            ]);
+            if (paidStatuses.has(paymentStatus) || order.payment_image) {
+                await transaction.rollback();
+                throw new Error('Cannot cancel order that has already been paid');
             }
             await order.update({
                 payment_status: 'rejected',
