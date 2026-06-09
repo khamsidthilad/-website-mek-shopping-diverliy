@@ -10,6 +10,7 @@ import Purchase from "./importProdcut.model";
 import Diverily from "./diverily.model";
 import Brand from "./brand.model";
 import BrandCategory from "./brandCategory.model";
+import ContactMessage from "./contactMessage.model";
 
 Order.belongsTo(Customer, { foreignKey: "cus_id", as: "customer" });
 Customer.hasMany(Order, { foreignKey: "cus_id", as: "orders" });
@@ -46,6 +47,12 @@ Supplier.belongsTo(Product, { foreignKey: "pro_id", as: "product" });
 User.hasMany(Purchase, { foreignKey: "user_id", as: "purchases" });
 Purchase.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
+Purchase.belongsTo(Product, { foreignKey: "pro_id", as: "product" });
+Product.hasMany(Purchase, { foreignKey: "pro_id", as: "purchases" });
+
+Purchase.belongsTo(Supplier, { foreignKey: "sup_id", as: "supplier" });
+Supplier.hasMany(Purchase, { foreignKey: "sup_id", as: "purchases" });
+
 Diverily.belongsTo(User, { foreignKey: "user_id", as: "user" });
 
 export {
@@ -61,5 +68,6 @@ export {
   Diverily,
   Brand,
   BrandCategory,
+  ContactMessage,
 };
 

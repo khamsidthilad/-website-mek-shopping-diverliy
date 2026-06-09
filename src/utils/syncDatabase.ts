@@ -15,6 +15,7 @@ import {
 import Category from "../models/category.model";
 import Brand from "../models/brand.model";
 import BrandCategory from "../models/brandCategory.model";
+import ContactMessage from "../models/contactMessage.model";
 
 dotenv.config();
 
@@ -48,6 +49,8 @@ export const syncDatabase = async (
 
     await Diverily.sync({ alter, force });
     await createMockDiverily();
+
+    await ContactMessage.sync({ alter, force });
 
     console.log("✅ Database synchronized successfully.");
     process.exit(0);

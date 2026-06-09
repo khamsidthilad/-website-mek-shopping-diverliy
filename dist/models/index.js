@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BrandCategory = exports.Brand = exports.Diverily = exports.Purchase = exports.Supplier = exports.Category = exports.BillSellDetail = exports.Order = exports.Product = exports.Customer = exports.User = exports.sequelize = void 0;
+exports.ContactMessage = exports.BrandCategory = exports.Brand = exports.Diverily = exports.Purchase = exports.Supplier = exports.Category = exports.BillSellDetail = exports.Order = exports.Product = exports.Customer = exports.User = exports.sequelize = void 0;
 const db_1 = require("../config/db");
 Object.defineProperty(exports, "sequelize", { enumerable: true, get: function () { return db_1.sequelize; } });
 const user_model_1 = __importDefault(require("./user.model"));
@@ -28,6 +28,8 @@ const brand_model_1 = __importDefault(require("./brand.model"));
 exports.Brand = brand_model_1.default;
 const brandCategory_model_1 = __importDefault(require("./brandCategory.model"));
 exports.BrandCategory = brandCategory_model_1.default;
+const contactMessage_model_1 = __importDefault(require("./contactMessage.model"));
+exports.ContactMessage = contactMessage_model_1.default;
 order_model_1.default.belongsTo(customer_model_1.default, { foreignKey: "cus_id", as: "customer" });
 customer_model_1.default.hasMany(order_model_1.default, { foreignKey: "cus_id", as: "orders" });
 order_model_1.default.hasMany(billSellDetail_model_1.default, { foreignKey: "Order_id", as: "billDetails" });
@@ -55,5 +57,9 @@ product_model_1.default.hasMany(supplier_model_1.default, { foreignKey: "pro_id"
 supplier_model_1.default.belongsTo(product_model_1.default, { foreignKey: "pro_id", as: "product" });
 user_model_1.default.hasMany(importProdcut_model_1.default, { foreignKey: "user_id", as: "purchases" });
 importProdcut_model_1.default.belongsTo(user_model_1.default, { foreignKey: "user_id", as: "user" });
+importProdcut_model_1.default.belongsTo(product_model_1.default, { foreignKey: "pro_id", as: "product" });
+product_model_1.default.hasMany(importProdcut_model_1.default, { foreignKey: "pro_id", as: "purchases" });
+importProdcut_model_1.default.belongsTo(supplier_model_1.default, { foreignKey: "sup_id", as: "supplier" });
+supplier_model_1.default.hasMany(importProdcut_model_1.default, { foreignKey: "sup_id", as: "purchases" });
 diverily_model_1.default.belongsTo(user_model_1.default, { foreignKey: "user_id", as: "user" });
 //# sourceMappingURL=index.js.map

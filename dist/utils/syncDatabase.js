@@ -45,6 +45,7 @@ const models_1 = require("../models");
 const category_model_1 = __importDefault(require("../models/category.model"));
 const brand_model_1 = __importDefault(require("../models/brand.model"));
 const brandCategory_model_1 = __importDefault(require("../models/brandCategory.model"));
+const contactMessage_model_1 = __importDefault(require("../models/contactMessage.model"));
 dotenv_1.default.config();
 const syncDatabase = async (force = false, alter = true) => {
     try {
@@ -67,6 +68,7 @@ const syncDatabase = async (force = false, alter = true) => {
         await models_1.Purchase.sync({ alter, force });
         await models_1.Diverily.sync({ alter, force });
         await createMockDiverily();
+        await contactMessage_model_1.default.sync({ alter, force });
         console.log("✅ Database synchronized successfully.");
         process.exit(0);
     }

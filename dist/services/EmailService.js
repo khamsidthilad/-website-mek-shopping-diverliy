@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodemailer_1 = __importDefault(require("nodemailer"));
-// import { Order, Customer, BillSellDetail, Product, User } from '../models';
+const models_1 = require("../models");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const handlebars_1 = __importDefault(require("handlebars"));
@@ -93,6 +93,19 @@ class EmailService {
             return false;
         }
     }
+    async sendContactMessage({ to, name, email, message, }) {
+        const shopName = this.emailConfig.shopName;
+        const html = `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #111;">New contact message — ${shopName}</h2>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Message:</strong></p>
+                <p style="white-space: pre-wrap;">${message}</p>
+            </div>
+        `;
+        return this.sendEmail(to, `Contact form: ${name}`, html);
+    }
     /**
      * Get customer email from order
      * @param order Order object
@@ -101,12 +114,12 @@ class EmailService {
         try {
             let customer = order.customer;
             if (!customer && order.cus_id) {
-                customer = await Customer.findByPk(order.cus_id);
+                customer = await models_1.Customer.findByPk(order.cus_id);
             }
             if (!customer) {
                 return null;
             }
-            const user = await User.findOne({
+            const user = await models_1.User.findOne({
                 where: {
                     role: 'customer',
                     User_id: `CUS${customer.cus_id.toString().padStart(5, '0')}`
@@ -132,10 +145,10 @@ class EmailService {
             }
             let orderItems = items;
             if (!orderItems) {
-                const billDetails = await BillSellDetail.findAll({
+                const billDetails = await models_1.BillSellDetail.findAll({
                     where: { Order_id: order.order_id },
                     include: [{
-                            model: Product,
+                            model: models_1.Product,
                             as: 'product'
                         }]
                 });

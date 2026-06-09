@@ -11,6 +11,7 @@ const router = express_1.default.Router();
 router.get('/report', auth_1.authenticate, auth_1.isStaff, order_controller_1.default.getReportOrder);
 router.post('/create', auth_1.authenticate, auth_1.isCustomer, order_controller_1.default.createOrder);
 router.post('/:orderId/payment', auth_1.authenticate, auth_1.isCustomer, upload_1.uploadPaymentReceipt, upload_1.handleUploadError, order_controller_1.default.uploadPaymentReceipt);
+router.put('/:orderId/cancel', auth_1.authenticate, auth_1.isCustomer, order_controller_1.default.cancelOrder);
 router.get('/:orderId', auth_1.authenticate, order_controller_1.default.getOrderDetails);
 router.put('/:orderId/status', auth_1.authenticate, auth_1.isStaff, order_controller_1.default.updateOrderStatus);
 router.get('/customers/:id/orders', auth_1.authenticate, auth_1.isOwnCustomer, order_controller_1.default.getCustomerOrders);

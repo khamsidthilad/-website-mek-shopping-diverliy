@@ -11,6 +11,7 @@ import importRoutes from './import.routes';
 import brandRoutes from './brand.routes';
 import brandCateRoutes from './brandCate.routes';
 import userRoutes from './user.routes';
+import contactRoutes from './contact.routes';
 
 const router = express.Router();
 
@@ -39,4 +40,5 @@ router.use('/imports', importRoutes);
 router.use('/brands', brandRoutes);
 router.use('/brand-category', brandCateRoutes);
 router.use('/users', userRoutes);
+router.use('/contact', contactRoutes);
 export default router;

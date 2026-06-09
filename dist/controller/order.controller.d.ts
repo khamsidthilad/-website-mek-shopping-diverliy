@@ -6,6 +6,7 @@ declare class OrderController {
     getReportOrder(req: Request, res: Response): Promise<void>;
     getCustomerOrders(req: Request, res: Response): Promise<void>;
     updateOrderStatus(req: Request, res: Response): Promise<void>;
+    cancelOrder(req: Request, res: Response): Promise<void>;
 }
 declare const _default: OrderController;
 export default _default;

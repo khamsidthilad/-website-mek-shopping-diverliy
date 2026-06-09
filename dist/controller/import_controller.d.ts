@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 declare class ImportController {
     getAllImports(req: Request, res: Response): Promise<void>;
     getImportById(req: Request, res: Response): Promise<void>;

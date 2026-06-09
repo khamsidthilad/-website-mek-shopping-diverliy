@@ -57,11 +57,30 @@ const fileFilter = (req, file, cb) => {
         cb(new Error('Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed.'));
     }
 };
-exports.uploadProductImage = (0, multer_1.default)({
-    storage: productStorage,
-    limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter
-}).single('image');
+const PRODUCT_IMAGE_FIELDS = ['image', 'pro_image', 'proImage', 'file'];
+// Normalize uploadProductImage to behave like `.single()` by setting `req.file`.
+// Accepts one of: image | pro_image | proImage | file.
+const uploadProductImage = (req, res, next) => {
+    const uploader = (0, multer_1.default)({
+        storage: productStorage,
+        limits: { fileSize: 5 * 1024 * 1024 },
+        fileFilter
+    }).any();
+    uploader(req, res, (err) => {
+        if (err)
+            return next(err);
+        const files = req.files;
+        const imageFiles = Array.isArray(files)
+            ? files.filter((file) => PRODUCT_IMAGE_FIELDS.includes(file.fieldname))
+            : [];
+        if (imageFiles.length > 1) {
+            return next(new Error('Only one product image file is allowed.'));
+        }
+        req.file = imageFiles[0];
+        next();
+    });
+};
+exports.uploadProductImage = uploadProductImage;
 // Normalize uploadPaymentReceipt to behave like `.single()` by setting `req.file`.
 // Accepts one of: receipt | image | file.
 const uploadPaymentReceipt = (req, res, next) => {

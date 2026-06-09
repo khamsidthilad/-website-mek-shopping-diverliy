@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-// import { Order, Customer, BillSellDetail, Product, User } from '../models';
+import { Order, Customer, BillSellDetail, Product, User } from '../models';
 import fs from 'fs';
 import path from 'path';
 import Handlebars from 'handlebars';
@@ -17,7 +17,7 @@ interface BillSellDetailWithProduct extends BillSellDetail {
 
 class EmailService {
     private transporter: nodemailer.Transporter;
-    private templates: { [key: string]: HandlebarsTemplateDelegate } = {};
+    private templates: { [key: string]: Handlebars.TemplateDelegate } = {};
     private emailConfig = {
         from: process.env.EMAIL_FROM || 'shop@example.com',
         shopName: process.env.SHOP_NAME || 'Online Shop'
@@ -104,6 +104,31 @@ class EmailService {
             console.error('Error sending email:', error);
             return false;
         }
+    }
+
+    async sendContactMessage({
+        to,
+        name,
+        email,
+        message,
+    }: {
+        to: string;
+        name: string;
+        email: string;
+        message: string;
+    }): Promise<boolean> {
+        const shopName = this.emailConfig.shopName;
+        const html = `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #111;">New contact message — ${shopName}</h2>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Message:</strong></p>
+                <p style="white-space: pre-wrap;">${message}</p>
+            </div>
+        `;
+
+        return this.sendEmail(to, `Contact form: ${name}`, html);
     }
 
     /**

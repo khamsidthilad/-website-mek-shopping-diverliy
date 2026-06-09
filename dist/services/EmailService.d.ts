@@ -1,3 +1,4 @@
+import { Order } from '../models';
 declare class EmailService {
     private transporter;
     private templates;
@@ -14,6 +15,12 @@ declare class EmailService {
      * @param html Email HTML content
      */
     private sendEmail;
+    sendContactMessage({ to, name, email, message, }: {
+        to: string;
+        name: string;
+        email: string;
+        message: string;
+    }): Promise<boolean>;
     /**
      * Get customer email from order
      * @param order Order object
