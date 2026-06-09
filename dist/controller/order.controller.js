@@ -8,6 +8,7 @@ const db_1 = require("../config/db");
 const customer_model_1 = __importDefault(require("../models/customer.model"));
 const order_model_1 = __importDefault(require("../models/order.model"));
 const billSellDetail_model_1 = __importDefault(require("../models/billSellDetail.model"));
+const OrderService_1 = __importDefault(require("../services/OrderService"));
 function serializeError(error) {
     if (error instanceof Error) {
         const anyErr = error;
@@ -139,6 +140,11 @@ class OrderController {
                     date: newOrder.date ?? new Date(),
                     image: line.image,
                 }, { transaction });
+                await product_model_1.default.decrement("pro_qty", {
+                    by: line.quantity,
+                    where: { pro_id: line.productId },
+                    transaction,
+                });
             }
             await transaction.commit();
             res.status(201).json({
@@ -394,6 +400,103 @@ class OrderController {
             res.status(500).json({
                 success: false,
                 message: "Failed to update order status",
+                error: serializeError(error),
+            });
+        }
+    }
+    async cancelOrder(req, res) {
+        try {
+            const raw = req.params.orderId ??
+                req.params.id;
+            const orderId = parseInt(String(raw), 10);
+            if (!Number.isInteger(orderId) || orderId < 1) {
+                res.status(400).json({
+                    success: false,
+                    message: "Invalid order ID",
+                });
+                return;
+            }
+            const user = req.user;
+            const order = await order_model_1.default.findByPk(orderId);
+            if (!order) {
+                res.status(404).json({
+                    success: false,
+                    message: "Order not found",
+                });
+                return;
+            }
+            if (user?.role === "customer" &&
+                user.customerId != null &&
+                order.cus_id !== user.customerId) {
+                res.status(403).json({
+                    success: false,
+                    message: "Access denied. You can only cancel your own orders.",
+                });
+                return;
+            }
+            if (order.shipping_status === "cancelled") {
+                res.status(400).json({
+                    success: false,
+                    message: "Order is already cancelled",
+                });
+                return;
+            }
+            const paymentStatus = (order.payment_status ?? "").toLowerCase();
+            const paidStatuses = new Set([
+                "verified",
+                "paid",
+                "approved",
+                "completed",
+                "success",
+                "submitted",
+                "reviewing",
+                "processing",
+                "pending_review",
+                "uploaded",
+            ]);
+            if (paidStatuses.has(paymentStatus) || order.payment_image) {
+                res.status(400).json({
+                    success: false,
+                    message: "Cannot cancel order that has already been paid",
+                });
+                return;
+            }
+            const cancelled = await OrderService_1.default.cancelOrder(orderId);
+            if (!cancelled) {
+                res.status(400).json({
+                    success: false,
+                    message: "Cannot cancel this order. It may have already been paid, shipped, or delivered.",
+                });
+                return;
+            }
+            const updated = await order_model_1.default.findByPk(orderId, {
+                include: [
+                    {
+                        model: customer_model_1.default,
+                        as: "customer",
+                    },
+                    {
+                        model: billSellDetail_model_1.default,
+                        as: "billDetails",
+                        include: [
+                            {
+                                model: product_model_1.default,
+                                as: "product",
+                            },
+                        ],
+                    },
+                ],
+            });
+            res.status(200).json({
+                success: true,
+                message: "Order cancelled successfully",
+                data: updated,
+            });
+        }
+        catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Failed to cancel order",
                 error: serializeError(error),
             });
         }

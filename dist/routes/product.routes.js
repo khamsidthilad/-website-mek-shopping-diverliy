@@ -12,7 +12,7 @@ router.get("/all", product_controller_1.default.getAllProducts);
 router.get("/search/:term", product_controller_1.default.searchProducts);
 router.get("/:id", product_controller_1.default.getProductById);
 router.post("/create", auth_1.authenticate, auth_1.isStaff, upload_1.uploadProductImage, upload_1.handleUploadError, product_controller_1.default.createProduct);
-router.put("/update/:id", product_controller_1.default.updateProduct);
+router.put("/update/:id", upload_1.uploadProductImage, upload_1.handleUploadError, product_controller_1.default.updateProduct);
 router.delete("/delete/:id", product_controller_1.default.deleteProduct);
 exports.default = router;
 //# sourceMappingURL=product.routes.js.map

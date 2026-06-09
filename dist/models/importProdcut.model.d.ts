@@ -7,14 +7,22 @@ import { Model, Optional } from "sequelize";
 interface PurchaseAttributes {
     Purchase_id: number;
     user_id: string | null;
+    pro_id: number | null;
+    sup_id: number | null;
+    quantity: number | null;
+    price: number | null;
     createdAt?: Date;
     updatedAt?: Date;
 }
-interface PurchaseCreationAttributes extends Optional<PurchaseAttributes, "Purchase_id" | "user_id"> {
+interface PurchaseCreationAttributes extends Optional<PurchaseAttributes, "Purchase_id" | "user_id" | "pro_id" | "sup_id" | "quantity" | "price"> {
 }
 declare class Purchase extends Model<PurchaseAttributes, PurchaseCreationAttributes> implements PurchaseAttributes {
     Purchase_id: number;
     user_id: string | null;
+    pro_id: number | null;
+    sup_id: number | null;
+    quantity: number | null;
+    price: number | null;
     readonly createdAt: Date;
     readonly updatedAt: Date;
 }

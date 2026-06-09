@@ -10,5 +10,6 @@ import Purchase from "./importProdcut.model";
 import Diverily from "./diverily.model";
 import Brand from "./brand.model";
 import BrandCategory from "./brandCategory.model";
-export { sequelize, User, Customer, Product, Order, BillSellDetail, Category, Supplier, Purchase, Diverily, Brand, BrandCategory, };
+import ContactMessage from "./contactMessage.model";
+export { sequelize, User, Customer, Product, Order, BillSellDetail, Category, Supplier, Purchase, Diverily, Brand, BrandCategory, ContactMessage, };
 //# sourceMappingURL=index.d.ts.map

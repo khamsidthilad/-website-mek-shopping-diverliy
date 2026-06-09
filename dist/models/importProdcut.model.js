@@ -17,6 +17,30 @@ Purchase.init({
         onDelete: "SET NULL",
         onUpdate: "CASCADE",
     },
+    pro_id: {
+        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
+        allowNull: true,
+        references: { model: "product", key: "pro_id" },
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    },
+    sup_id: {
+        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
+        allowNull: true,
+        references: { model: "supplier", key: "sup_id" },
+        onDelete: "SET NULL",
+        onUpdate: "CASCADE",
+    },
+    quantity: {
+        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
+        allowNull: true,
+        defaultValue: 0,
+    },
+    price: {
+        type: sequelize_1.DataTypes.DECIMAL(12, 2),
+        allowNull: true,
+        defaultValue: 0,
+    },
 }, {
     sequelize: db_1.sequelize,
     tableName: "purchase",

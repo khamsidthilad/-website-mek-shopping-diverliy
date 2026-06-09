@@ -141,3 +141,51 @@
 2026-06-05 10:07:20 [INFO]: Mock suppliers seeded 
 2026-06-05 10:07:20 [INFO]: Admin user already exists, skipping creation 
 2026-06-05 10:07:20 [INFO]: Delivery records already exist, skipping mock data. 
+2026-06-08 19:07:41 [INFO]: Default categories created 
+2026-06-08 19:07:41 [INFO]: Mock customers created 
+2026-06-08 19:07:41 [INFO]: Mock products created 
+2026-06-08 19:07:41 [INFO]: Mock suppliers seeded 
+2026-06-08 19:07:41 [INFO]: Default admin user created 
+2026-06-08 19:07:41 [INFO]: Mock delivery records created 
+2026-06-08 19:09:29 [INFO]: Categories already exist, skipping creation 
+2026-06-08 19:09:29 [INFO]: Customers already exist, skipping mock data. 
+2026-06-08 19:09:29 [INFO]: Products already exist, skipping mock data. 
+2026-06-08 19:09:29 [INFO]: Mock suppliers seeded 
+2026-06-08 19:09:29 [INFO]: Admin user already exists, skipping creation 
+2026-06-08 19:09:29 [INFO]: Delivery records already exist, skipping mock data. 
+2026-06-08 19:11:08 [INFO]: Categories already exist, skipping creation 
+2026-06-08 19:11:08 [INFO]: Customers already exist, skipping mock data. 
+2026-06-08 19:11:08 [INFO]: Products already exist, skipping mock data. 
+2026-06-08 19:11:08 [INFO]: Mock suppliers seeded 
+2026-06-08 19:11:08 [INFO]: Admin user already exists, skipping creation 
+2026-06-08 19:11:08 [INFO]: Delivery records already exist, skipping mock data. 
+2026-06-09 09:34:57 [INFO]: Categories already exist, skipping creation 
+2026-06-09 09:34:57 [INFO]: Customers already exist, skipping mock data. 
+2026-06-09 09:34:57 [INFO]: Products already exist, skipping mock data. 
+2026-06-09 09:34:57 [INFO]: Mock suppliers seeded 
+2026-06-09 09:34:57 [INFO]: Admin user already exists, skipping creation 
+2026-06-09 09:34:57 [INFO]: Delivery records already exist, skipping mock data. 
+2026-06-09 09:39:23 [INFO]: Categories already exist, skipping creation 
+2026-06-09 09:39:23 [INFO]: Customers already exist, skipping mock data. 
+2026-06-09 09:39:23 [INFO]: Products already exist, skipping mock data. 
+2026-06-09 09:39:23 [INFO]: Mock suppliers seeded 
+2026-06-09 09:39:23 [INFO]: Admin user already exists, skipping creation 
+2026-06-09 09:39:23 [INFO]: Delivery records already exist, skipping mock data. 
+2026-06-09 09:44:33 [INFO]: Categories already exist, skipping creation 
+2026-06-09 09:44:33 [INFO]: Customers already exist, skipping mock data. 
+2026-06-09 09:44:33 [INFO]: Products already exist, skipping mock data. 
+2026-06-09 09:44:33 [INFO]: Mock suppliers seeded 
+2026-06-09 09:44:33 [INFO]: Admin user already exists, skipping creation 
+2026-06-09 09:44:33 [INFO]: Delivery records already exist, skipping mock data. 
+2026-06-09 09:47:57 [INFO]: Categories already exist, skipping creation 
+2026-06-09 09:47:57 [INFO]: Customers already exist, skipping mock data. 
+2026-06-09 09:47:57 [INFO]: Products already exist, skipping mock data. 
+2026-06-09 09:47:57 [INFO]: Mock suppliers seeded 
+2026-06-09 09:47:57 [INFO]: Admin user already exists, skipping creation 
+2026-06-09 09:47:57 [INFO]: Delivery records already exist, skipping mock data. 
+2026-06-09 09:51:35 [INFO]: Categories already exist, skipping creation 
+2026-06-09 09:51:35 [INFO]: Customers already exist, skipping mock data. 
+2026-06-09 09:51:35 [INFO]: Products already exist, skipping mock data. 
+2026-06-09 09:51:35 [INFO]: Mock suppliers seeded 
+2026-06-09 09:51:35 [INFO]: Admin user already exists, skipping creation 
+2026-06-09 09:51:35 [INFO]: Delivery records already exist, skipping mock data. 

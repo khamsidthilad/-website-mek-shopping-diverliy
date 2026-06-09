@@ -69,25 +69,3 @@ const testConnection = async () => {
 export { sequelize, testConnection };
 
 
-// PORT=3003
-// NODE_ENV=development
-
-// DB_HOST=127.0.0.1
-// DB_PORT=5432
-// DB_USER=postgres
-// DB_PASSWORD=Dev234miler
-// DB_NAME=naruto
-
-
-// JWT_SECRET=(POS123;
-// JWT_EXPIRES_IN=1d
-// EMAIL_HOST=sandbox.smtp.mailtrap.io
-// EMAIL_PORT=2525
-// EMAIL_USER=0e4451930cbc9d
-// EMAIL_PASS=8414b237fa3aba
-// EMAIL_FROM=black13131303@gmail.com
-// SHOP_NAME=Online Shop
-// # File upload limits
-// MAX_FILE_SIZE=10485760 # 10MB
-
-// CONNECTION_STRING=postgresql://postgres:Dev234miler@127.0.0.1:5432/naruto
