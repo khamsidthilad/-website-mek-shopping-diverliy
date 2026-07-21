@@ -12,6 +12,7 @@ import brandRoutes from './brand.routes';
 import brandCateRoutes from './brandCate.routes';
 import userRoutes from './user.routes';
 import contactRoutes from './contact.routes';
+import paymentRoutes from './payment.routes';
 
 const router = express.Router();
 
@@ -34,6 +35,7 @@ router.use('/products', productRoutes);
 router.use('/customers', customerRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/orders', orderRoutes);
+router.use('/payments', paymentRoutes);
 router.use('/bills', billRoutes);
 router.use('/suppliers', supplierRoutes);
 router.use('/imports', importRoutes);

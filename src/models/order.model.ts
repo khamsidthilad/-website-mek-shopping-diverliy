@@ -20,6 +20,10 @@ interface OrderAttributes {
   shipping_status: string | null;
   payment_image: string | null;
   tracking_number: string | null;
+  /** PhaJay QR transaction id */
+  phajay_transaction_id: string | null;
+  /** Bank used for PhaJay QR (bcel, jdb, ldb, ib, stb, m-money) */
+  payment_bank: string | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -36,6 +40,8 @@ interface OrderCreationAttributes
     | "shipping_status"
     | "payment_image"
     | "tracking_number"
+    | "phajay_transaction_id"
+    | "payment_bank"
   > {}
 
 class Order extends Model<OrderAttributes, OrderCreationAttributes>
@@ -49,6 +55,8 @@ class Order extends Model<OrderAttributes, OrderCreationAttributes>
   public shipping_status!: string | null;
   public payment_image!: string | null;
   public tracking_number!: string | null;
+  public phajay_transaction_id!: string | null;
+  public payment_bank!: string | null;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -92,6 +100,16 @@ Order.init(
     shipping_status: { type: DataTypes.STRING(50), allowNull: true },
     payment_image: { type: DataTypes.STRING(500), allowNull: true },
     tracking_number: { type: DataTypes.STRING(100), allowNull: true },
+    phajay_transaction_id: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+      comment: "PhaJay QR transactionId",
+    },
+    payment_bank: {
+      type: DataTypes.STRING(30),
+      allowNull: true,
+      comment: "PhaJay bank code (bcel, jdb, ...)",
+    },
   },
   {
     sequelize,
