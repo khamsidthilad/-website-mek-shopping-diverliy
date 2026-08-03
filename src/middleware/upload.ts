@@ -48,6 +48,19 @@ const brandLogoStorage = multer.diskStorage({
     }
 });
 
+const categoryImageStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadPath = path.join(__dirname, '../../public/images/categories');
+        createDirIfNotExists(uploadPath);
+        cb(null, uploadPath);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const ext = path.extname(file.originalname);
+        cb(null, 'category-' + uniqueSuffix + ext);
+    }
+});
+
 const fileFilter = (
     req: any,
     file: Express.Multer.File,
@@ -152,6 +165,37 @@ export const uploadBrandLogo = (
     });
 };
 
+const CATEGORY_IMAGE_FIELDS = ['image', 'cate_image', 'cateImage', 'file'];
+
+/** Accepts one of: image | cate_image | cateImage | file */
+export const uploadCategoryImage = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const uploader = multer({
+        storage: categoryImageStorage,
+        limits: { fileSize: 5 * 1024 * 1024 },
+        fileFilter
+    }).any();
+
+    uploader(req, res, (err: any) => {
+        if (err) return next(err);
+
+        const files = (req as any).files as Express.Multer.File[] | undefined;
+        const imageFiles = Array.isArray(files)
+            ? files.filter((file) => CATEGORY_IMAGE_FIELDS.includes(file.fieldname))
+            : [];
+
+        if (imageFiles.length > 1) {
+            return next(new Error('Only one category image file is allowed.'));
+        }
+
+        (req as any).file = imageFiles[0];
+        next();
+    });
+};
+
 export const handleUploadError = (
     err: Error,
     req: Request,
@@ -162,7 +206,7 @@ export const handleUploadError = (
         if (err.code === 'LIMIT_FILE_SIZE') {
             return res.status(400).json({
                 success: false,
-                message: 'File too large. Max size is 5MB for product images, 10MB for payment receipts, and 2MB for brand logos.'
+                message: 'File too large. Max size is 5MB for product/category images, 10MB for payment receipts, and 2MB for brand logos.'
             });
         }
 

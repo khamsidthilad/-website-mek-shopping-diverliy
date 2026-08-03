@@ -1,8 +1,21 @@
 import { Request, Response } from "express";
+import path from "path";
+import fs from "fs";
 import Category from "../models/category.model";
 import { Op } from "sequelize";
 import { Product } from "../models";
-import { truncateSync } from "node:fs";
+
+function categoryImagePath(req: Request): string | null {
+  if (!req.file) return null;
+  return `images/categories/${req.file.filename}`;
+}
+
+function removeCategoryImageFile(imagePath: string | null): void {
+  if (!imagePath) return;
+  const fullPath = path.join(__dirname, "../../public", imagePath);
+  if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+}
+
 class CategoryController {
   public async getAllCategories(req: Request, res: Response): Promise<void> {
     try {
@@ -12,7 +25,6 @@ class CategoryController {
         success: true,
         data: categories,
       });
-      console.log(categories);
     } catch (error) {
       res.status(500).json({
         success: false,
@@ -21,6 +33,7 @@ class CategoryController {
       });
     }
   }
+
   public async getCategoryById(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
@@ -38,7 +51,6 @@ class CategoryController {
           success: false,
           message: "Category not found",
         });
-
         return;
       }
       res.status(200).json({
@@ -54,6 +66,7 @@ class CategoryController {
       });
     }
   }
+
   public async searchCategories(req: Request, res: Response): Promise<void> {
     try {
       const term =
@@ -115,7 +128,7 @@ class CategoryController {
         order: [["pro_name", "DESC"]],
       });
       res.status(200).json({
-        succsess: true,
+        success: true,
         data: {
           category: category,
           products: products,
@@ -124,7 +137,7 @@ class CategoryController {
       });
     } catch (error) {
       res.status(500).json({
-        succsess: false,
+        success: false,
         message: "Failed to retrieve products for category",
         error,
       });
@@ -156,6 +169,7 @@ class CategoryController {
 
       const category = await Category.create({
         cate_name,
+        cate_image: categoryImagePath(req),
       });
 
       res.status(201).json({
@@ -207,8 +221,14 @@ class CategoryController {
         }
       }
 
+      const newImage = categoryImagePath(req);
+      if (newImage && category.cate_image) {
+        removeCategoryImageFile(category.cate_image);
+      }
+
       await category.update({
         cate_name: cate_name || category.cate_name,
+        cate_image: newImage ?? category.cate_image,
       });
       res.status(200).json({
         success: true,
@@ -255,6 +275,7 @@ class CategoryController {
         return;
       }
 
+      removeCategoryImageFile(category.cate_image);
       await category.destroy();
       res.status(200).json({
         success: true,
@@ -268,27 +289,32 @@ class CategoryController {
       });
     }
   }
-  public async getCategoryStatsOverview(req: Request, res: Response): Promise<void> {
-    try {
-      const categories = await Category.findAll()
-      const stats = await Promise.all(
-                categories.map(async (category) => {
-                    const productCount = await Product.count({
-                        where: { cate_id: category.cate_id }
-                    });
-                    return {
-                        category_id: category.cate_id,
-                        category_name: category.cate_name,
-                        product_count: productCount
-                    };
-                })
-            );
-            stats.sort((a, b) => b.product_count - a.product_count);
 
-            res.status(200).json({
-                success: true,
-                data: stats
-            });
+  public async getCategoryStatsOverview(
+    req: Request,
+    res: Response,
+  ): Promise<void> {
+    try {
+      const categories = await Category.findAll();
+      const stats = await Promise.all(
+        categories.map(async (category) => {
+          const productCount = await Product.count({
+            where: { cate_id: category.cate_id },
+          });
+          return {
+            category_id: category.cate_id,
+            category_name: category.cate_name,
+            cate_image: category.cate_image,
+            product_count: productCount,
+          };
+        }),
+      );
+      stats.sort((a, b) => b.product_count - a.product_count);
+
+      res.status(200).json({
+        success: true,
+        data: stats,
+      });
     } catch (error) {
       res.status(500).json({
         success: false,
